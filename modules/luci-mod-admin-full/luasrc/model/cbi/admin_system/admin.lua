@@ -40,7 +40,7 @@ function m.parse(map)
 	Map.parse(map)
 end
 
-
+if not fs.access("/etc/adv_luci_disabled") then
 if fs.access("/etc/config/dropbear") then
 
 m2 = Map("dropbear", translate("SSH Access"),
@@ -116,6 +116,7 @@ function keys.write(self, section, value)
 	end
 end
 
+end
 end
 
 return m, m2

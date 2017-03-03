@@ -1,0 +1,27 @@
+#!/bin/sh /etc/rc.common
+
+START=19
+
+add_macvlan() {
+	local cfg="$1"
+	local ifname macvlan
+
+	config_get ifname "$cfg" ifname
+	config_get macvlan "$cfg" macvlan
+
+	test -n "$ifname" && ifconfig $ifname >/dev/null || return 1
+	test -n "$macvlan" && {
+		ip link add link $ifname mvlan$macvlan-$ifname type macvlan
+	}
+}
+
+start() {
+	config_load macvlan
+	config_foreach add_macvlan macvlan
+}
+
+stop() {
+	ifconfig -a | grep mvlan | awk '{print $1}' | while read ifname; do
+		ip link del $ifname 2>/dev/null
+	done
+}
