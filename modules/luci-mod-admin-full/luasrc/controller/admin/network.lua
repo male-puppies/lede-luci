@@ -23,7 +23,6 @@ function index()
 				return false
 			end)
 
-		if not nixio.fs.access("/etc/adv_luci_disabled") then
 		if has_switch then
 			page  = node("admin", "network", "vlan")
 			page.target = cbi("admin_network/vlan")
@@ -33,8 +32,6 @@ function index()
 			page = entry({"admin", "network", "switch_status"}, call("switch_status"), nil)
 			page.leaf = true
 		end
-		end
-
 
 		local has_wifi = false
 

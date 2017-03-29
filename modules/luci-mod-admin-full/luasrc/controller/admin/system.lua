@@ -33,10 +33,8 @@ function index()
 		entry({"admin", "system", "fstab", "swap"},  cbi("admin_system/fstab/swap"),  nil).leaf = true
 	end
 
-	if not fs.access("/etc/adv_luci_disabled") then
 	if fs.access("/sys/class/leds") then
 		entry({"admin", "system", "leds"}, cbi("admin_system/leds"), _("<abbr title=\"Light Emitting Diode\">LED</abbr> Configuration"), 60)
-	end
 	end
 
 	entry({"admin", "system", "flashops"}, call("action_flashops"), _("Backup / Flash Firmware"), 70)
@@ -307,7 +305,7 @@ function action_sysupgrade()
 		local erase_sda3 = ""
 		if nixio.fs.access("/rom/lib/preinit/79_disk_ready") then
 			if not http.formvalue("keep") == "1" then
-				erase_sda3 = 'echo erase >/dev/sda3;'
+				erase_sda3 = 'mount -o remount,rw /rom && rm -f /rom/etc/sda3.ready && mount -o remount,ro /rom;'
 			end
 		end
 		fork_exec("sleep 1; killall dropbear uhttpd; %s sleep 1; /sbin/sysupgrade %s %q" %{ erase_sda3, keep, image_tmp })
@@ -372,7 +370,7 @@ function action_reset()
 		})
 
 		if nixio.fs.access("/rom/lib/preinit/79_disk_ready") then
-			fork_exec("sleep 1; killall dropbear uhttpd; sleep 1; echo erase >/dev/sda3 && reboot")
+			fork_exec("sleep 1; killall dropbear uhttpd; sleep 1; mount -o remount,rw /rom && rm -f /rom/etc/sda3.ready && reboot")
 		else
 			fork_exec("sleep 1; killall dropbear uhttpd; sleep 1; jffs2reset -y && reboot")
 		end
