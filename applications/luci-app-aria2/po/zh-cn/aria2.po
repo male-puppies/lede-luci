@@ -97,6 +97,9 @@ msgstr "配置文件目录"
 msgid "Default download directory"
 msgstr "默认下载目录"
 
+msgid "Only path under /mnt is allowed!"
+msgstr "只允许设置成 /mnt 下面的路径"
+
 msgid "Disk cache"
 msgstr "磁盘缓存"
 
