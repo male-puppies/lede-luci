@@ -29,11 +29,20 @@ e.default = '60'
 e.rmempty = true
 e.placeholder = '60'
 
+e = s:option(Value, "natcap_redirect_port", translate("本地TCP监听端口"), translate("0 禁用，其它启用"))
+e.datatype = "portrange"
+e.rmempty = true
+e.placeholder = '0'
+
 e = s:option(Flag, "encode_mode", translate("强制UDP模式"), translate("一般不要启用，除非正常模式不通。"))
 e.default = e.disabled
 e.rmempty = false
 
 e = s:option(Flag, "sproxy", translate("TCP代理加速"), translate("推荐使用，利用服务器的TCP代理和谷歌BBR算法加速。"))
+e.default = e.disabled
+e.rmempty = false
+
+e = s:option(Flag, "enable_hosts", translate("自动hosts加速"), translate("尝试使用，使用hosts名单加速可能更快，如果异常请关闭。"))
 e.default = e.disabled
 e.rmempty = false
 
