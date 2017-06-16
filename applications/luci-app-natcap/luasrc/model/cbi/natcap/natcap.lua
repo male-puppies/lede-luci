@@ -20,6 +20,10 @@ e = s:option(DynamicList, "server", translate("Natcap 服务器"), translate("�
 e.datatype = "list(ipaddrport(1))"
 e.placeholder = "1.2.3.4:0"
 
+e = s:option(Value, "dns_server", translate("DNS 服务器"), translate("请按照格式填写服务器（ip:port）"))
+e.datatype = "ipaddrport(1)"
+e.placeholder = "8.8.8.8:53"
+
 e = s:option(Flag, "enable_encryption", translate("启用加密"))
 e.default = e.enabled
 e.rmempty = false
